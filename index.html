@@ -143,13 +143,14 @@
         <section id="home">
             <h2>Bienvenue chez Wonder Tech</h2>
             <h2>Notre Localisation</h2>
-            <div id="map" style="height: 400px; width: 100%;"></div>
+            <div id="map" style="height: 200px; width: 100%;"></div>
             <script>
                 function initMap() {
-                    const location = { lat: 34.7406, lng: 10.7603 };
+                    const location = { lat: 34.759917, lng: 10.771278 }; // Coordinates for 34°45'35.7"N 10°46'16.6"E
                     const map = new google.maps.Map(document.getElementById('map'), {
-                        zoom: 15,
-                        center: location
+                        zoom: 18, // Adjusted zoom level for better view
+                        center: location,
+                        mapTypeId: 'satellite' // Set map type to satellite for a similar view
                     });
                     const marker = new google.maps.Marker({
                         position: location,
