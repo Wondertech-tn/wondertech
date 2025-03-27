@@ -189,39 +189,82 @@
             <h2>Bienvenue chez Wonder Tech</h2>
             <img src="cover.jpg" alt="Wonder Tech Cover">
             <h2>Notre Localisation</h2>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d553.2647922002717!2d10.771125470545439!3d34.759779187203954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2stn!4v1743076922949!5m2!1sen!2stn" allowfullscreen="" loading="lazy"></iframe>
+            <button id="toggle-map" style="margin-bottom: 1rem; padding: 0.5rem 1rem; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Cacher la carte</button>
+            <div id="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d553.2647922002717!2d10.771125470545439!3d34.759779187203954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2stn!4v1743076922949!5m2!1sen!2stn" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <script>
+                const toggleMapButton = document.getElementById('toggle-map');
+                const mapContainer = document.getElementById('map-container');
+                toggleMapButton.addEventListener('click', () => {
+                    if (mapContainer.style.display === 'none') {
+                        mapContainer.style.display = 'block';
+                        toggleMapButton.textContent = 'Cacher la carte';
+                    } else {
+                        mapContainer.style.display = 'none';
+                        toggleMapButton.textContent = 'Afficher la carte';
+                    }
+                });
+            </script>
         </section>
         <section id="calendar" class="section">
             <h2>Horaires d'ouverture</h2>
-            <div class="calendar">
-                <div class="day">
-                    <strong>Lundi</strong>
-                    <p>08:30 - 15:00</p>
-                </div>
-                <div class="day">
-                    <strong>Mardi</strong>
-                    <p>08:30 - 15:00</p>
-                </div>
-                <div class="day">
-                    <strong>Mercredi</strong>
-                    <p>08:30 - 15:00</p>
-                </div>
-                <div class="day">
-                    <strong>Jeudi</strong>
-                    <p>08:30 - 15:00</p>
-                </div>
-                <div class="day">
-                    <strong>Vendredi</strong>
-                    <p>08:30 - 15:00</p>
-                </div>
-                <div class="day">
-                    <strong>Samedi</strong>
-                    <p>08:00 - 14:00</p>
-                </div>
-                <div class="day">
-                    <strong>Dimanche</strong>
-                    <p>Fermé</p>
-                </div>
+            <button id="toggle-calendar" style="margin-bottom: 1rem; padding: 0.5rem 1rem; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Cacher le calendrier</button>
+            <div class="calendar" id="calendar-content">
+            <div class="day">
+                <strong>Lundi</strong>
+                <p>08:30 - 17:30</p>
+            </div>
+            <div class="day">
+                <strong>Mardi</strong>
+                <p>08:30 - 17:30</p>
+            </div>
+            <div class="day">
+                <strong>Mercredi</strong>
+                <p>08:30 - 17:30</p>
+            </div>
+            <div class="day">
+                <strong>Jeudi</strong>
+                <p>08:30 - 17:30</p>
+            </div>
+            <div class="day">
+                <strong>Vendredi</strong>
+                <p>08:30 - 17:30</p>
+            </div>
+            <div class="day">
+                <strong>Samedi</strong>
+                <p>08:00 - 15:00</p>
+            </div>
+            <div class="day">
+                <strong>Dimanche</strong>
+                <p>Fermé</p>
+            </div>
+            </div>
+            <div id="notification" style="margin-top: 1rem; padding: 1rem; background-color: #e9ecef; border: 1px solid #007bff; border-radius: 8px; text-align: center; color: #0056b3; font-size: 1.1rem; font-weight: 600;"></div>
+            <script>
+                const now = new Date();
+                const day = now.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+                const hour = now.getHours();
+                const minute = now.getMinutes();
+                const isOpen = (day >= 1 && day <= 5 && (hour > 8 || (hour === 8 && minute >= 30)) && (hour < 15 || (hour === 15 && minute === 0))) ||
+                       (day === 6 && (hour > 7 || (hour === 7 && minute >= 30)) && (hour < 14 || (hour === 14 && minute === 0)));
+                document.getElementById('notification').textContent = isOpen ? "Nous sommes actuellement OUVERTS." : "Nous sommes actuellement FERMÉS.";
+            </script>
+            </div>
+            <script>
+            const toggleButton = document.getElementById('toggle-calendar');
+            const calendarContent = document.getElementById('calendar-content');
+            toggleButton.addEventListener('click', () => {
+                if (calendarContent.style.display === 'none') {
+                calendarContent.style.display = 'flex';
+                toggleButton.textContent = 'Cacher le calendrier';
+                } else {
+                calendarContent.style.display = 'none';
+                toggleButton.textContent = 'Afficher le calendrier';
+                }
+            });
+            </script>
+        </section>
             </div>
         </section>
         <section id="about" class="section">
