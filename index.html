@@ -214,9 +214,52 @@
     </style>
 </head>
 <body>
-    <header>
+    <div id="loading-screen">
+        <img src="logo.png" alt="Logo Wonder Tech">
+    </div>
+    <header style="display: none;">
         <img src="logo.png" alt="Logo Wonder Tech">
         <h1>Wonder Tech</h1>
+    </header>
+    <script>
+        const loadingScreen = document.getElementById('loading-screen');
+        const header = document.querySelector('header');
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                header.style.display = 'block';
+            }, 3000);
+        });
+    </script>
+    <style>
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        #loading-screen img {
+            width: 150px;
+            animation: fadeInOut 3s ease-in-out;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+    </style>
     </header>
     <nav>
         <a href="#home">Accueil</a>
