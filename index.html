@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wonder Tech</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Base Styles */
         body {
@@ -17,16 +16,16 @@
         header {
             background: linear-gradient(90deg, #0056b3, #007bff);
             color: #fff;
-            padding: 2rem 1rem;
+            padding: 1.5rem 1rem;
             text-align: center;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         header img {
-            max-height: 100px;
+            max-height: 80px;
             margin-bottom: 1rem;
         }
         header h1 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin: 0;
         }
         nav {
@@ -35,10 +34,11 @@
             background-color: #444;
             padding: 0.5rem 0;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            flex-wrap: wrap;
         }
         nav a {
             color: #fff;
-            padding: 0.75rem 1.5rem;
+            padding: 0.5rem 1rem;
             text-decoration: none;
             font-weight: bold;
             transition: background-color 0.3s ease;
@@ -47,15 +47,15 @@
             background-color: #555;
         }
         .container {
-            max-width: 1200px;
-            margin: 2rem auto;
+            max-width: 100%;
+            margin: 1rem auto;
             padding: 1rem;
             background: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         h2 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: #0056b3;
             margin-bottom: 1rem;
             border-bottom: 2px solid #007bff;
@@ -63,18 +63,18 @@
             padding-bottom: 0.5rem;
         }
         .section {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
         .section img {
             width: 100%;
-            max-height: 400px;
+            max-height: 300px;
             object-fit: cover;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         iframe {
             width: 100%;
-            height: 300px;
+            height: 250px;
             border: 0;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -86,15 +86,15 @@
             margin-top: 1rem;
         }
         .contact-info div {
-            flex: 1 1 calc(50% - 1rem);
+            flex: 1 1 calc(100% - 1rem);
             background: #f9f9f9;
-            padding: 1rem;
+            padding: 0.8rem;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
         .contact-info div i {
-            font-size: 2rem;
+            font-size: 1.5rem;
             color: #007bff;
             margin-bottom: 0.5rem;
         }
@@ -103,7 +103,7 @@
             color: #fff;
             text-align: center;
             padding: 1rem 0;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
         }
         footer a {
             color: #007bff;
@@ -124,7 +124,7 @@
             padding: 0.5rem 1rem;
             border-radius: 5px;
             text-decoration: none;
-            font-size: 1.2rem;
+            font-size: 1rem;
             transition: background-color 0.3s ease;
         }
         .social-links a:hover {
@@ -133,44 +133,84 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
+            body {
+                margin: 0;
+                padding: 0 1rem; /* Add padding to prevent content from touching screen edges */
+            }
+            header h1 {
+                font-size: 1.5rem;
+            }
             .contact-info div {
                 flex: 1 1 100%;
             }
+            nav a {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .day {
+                flex: 1 1 calc(100% - 1rem);
+            }
+        }
+        @media (max-width: 480px) {
+            nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav a {
+                padding: 0.5rem 0;
+                font-size: 0.8rem;
+            }
+            header img {
+                max-height: 60px;
+            }
+            .section img {
+                max-height: 200px;
+            }
+            h2 {
+                font-size: 1.2rem;
+            }
+            .day {
+                flex: 1 1 100%;
+                margin: 0.5rem 0;
+            }
         }
         .calendar {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    padding: 1rem;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-top: 1rem;
-}
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 0.8rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 1rem;
+        }
 
-.day {
-    padding: 1rem;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    text-align: center;
-    margin: 0.5rem;
-    flex: 1 1 calc(33.333% - 1rem);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+        .day {
+            padding: 0.8rem;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            margin: 0.5rem;
+            flex: 1 1 calc(45% - 1rem);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-.day:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
+        .day:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
-.day strong {
-    display: block;
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-    color: #007bff;
-}
+        .day strong {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #007bff;
+        }
     </style>
 </head>
 <body>
@@ -233,7 +273,7 @@
             </div>
             <div class="day">
                 <strong>Samedi</strong>
-                <p>08:00 - 15:00</p>
+                <p>08:00 - 1:00</p>
             </div>
             <div class="day">
                 <strong>Dimanche</strong>
