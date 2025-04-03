@@ -329,9 +329,9 @@
                 const day = now.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
                 const hour = now.getHours();
                 const minute = now.getMinutes();
-                const isOpen = (day >= 1 && day <= 5 && (hour > 8 || (hour === 8 && minute >= 30)) && (hour < 17 || (hour === 17 && minute <= 30))) ||
-                       (day === 6 && (hour >= 8) && (hour < 13 || (hour === 13 && minute === 0)));
-                document.getElementById('notification').textContent = isOpen ? "Nous sommes actuellement OUVERTS." : "Nous sommes actuellement FERMÉS.";
+                const isOpen = (day >= 1 && day <= 5 && (hour >= 8 && (hour < 17 || (hour === 17 && minute <= 30)))) ||
+                       (day === 6 && (hour >= 8 && (hour < 13 || (hour === 13 && minute === 0))));
+                document.getElementById('notification').textContent = isOpen ? "Nous sommes actuellement ouverts." : "Nous sommes actuellement fermés.";
             </script>
             </div>
             <script>
