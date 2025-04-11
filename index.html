@@ -504,13 +504,6 @@
             }
         };
 
-        // Check if the user has already commented
-        const hasCommented = () => {
-            const savedComments = JSON.parse(localStorage.getItem('comments')) || [];
-            const userIP = localStorage.getItem('userIP');
-            return savedComments.some(comment => comment.ip === userIP);
-        };
-
         // Fetch user's IP address and store it in localStorage
         const fetchUserIP = async () => {
             try {
@@ -527,11 +520,6 @@
 
             if (commentText === '') {
                 alert('Veuillez écrire un commentaire avant de publier.');
-                return;
-            }
-
-            if (hasCommented()) {
-                alert('Vous avez déjà publié un commentaire.');
                 return;
             }
 
