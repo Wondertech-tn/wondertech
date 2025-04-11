@@ -217,9 +217,9 @@
     <div id="loading-screen">
         <img src="logo.png" alt="Logo Wonder Tech">
     </div>
-    <header style="display: none;">
-        <img src="logo.png" alt="Logo Wonder Tech">
-        <h1>WonderTech Services</h1>
+    <header style="display: none; font-size: 1.5rem; padding: 3rem 1.5rem;">
+        <img src="logo.png" alt="Logo Wonder Tech" style="max-height: 120px;">
+        <h1 style="font-size: 2.5rem;">WonderTech Services</h1>
     </header>
     <script>
         const loadingScreen = document.getElementById('loading-screen');
@@ -260,13 +260,35 @@
             }
         }
     </style>
+    <style>
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+    
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+   
     </header>
+    
+</script>
     <nav>
-        <a href="#home">Accueil</a>
-        <a href="#about">À Propos</a>
-        <a href="#contact">Contact</a>
-        <a href="#social">Réseaux Sociaux</a>
+        <a href="#home" style="transition: color 0.3s ease;">Accueil</a>
+        <a href="#about" style="transition: color 0.3s ease;">À Propos</a>
+        <a href="#contact" style="transition: color 0.3s ease;">Contact</a>
+        <a href="#social" style="transition: color 0.3s ease;">Réseaux Sociaux</a>
     </nav>
+    <style>
+        nav a:hover {
+            color: #ff5733; /* A vibrant orange for hover effect */
+        }
+    </style>
     <div class="container">
         <section id="home" class="section">
             <h2>Bienvenue chez WonderTech</h2>
@@ -379,6 +401,203 @@
             </div>
         </section>
     </div>
+<section id="comments" class="section">
+    <h2>Commentaires</h2>
+    <div id="comment-form" style="margin-bottom: 1.5rem;">
+        <textarea id="comment-input" placeholder="Écrivez votre commentaire ici..." rows="4"
+            style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; resize: none;"></textarea>
+        <button id="submit-comment"
+            style="margin-top: 0.5rem; padding: 0.5rem 1rem; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Publier</button>
+    </div>
+    <div id="comment-list"
+        style="background-color: #f9f9f9; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+        <p style="text-align: center; color: #888;">Aucun commentaire pour le moment. Soyez le premier à commenter !</p>
+    </div>
+    <script>
+        const commentInput = document.getElementById('comment-input');
+        const submitCommentButton = document.getElementById('submit-comment');
+        const commentList = document.getElementById('comment-list');
+
+        // Load comments from localStorage
+        const loadComments = () => {
+            const savedComments = JSON.parse(localStorage.getItem('comments')) || [];
+            commentList.innerHTML = savedComments.length
+                ? ''
+                : '<p style="text-align: center; color: #888;">Aucun commentaire pour le moment. Soyez le premier à commenter !</p>';
+            savedComments.forEach((comment, index) => {
+                const commentElement = document.createElement('div');
+                commentElement.style.marginBottom = '1rem';
+                commentElement.style.padding = '0.8rem';
+                commentElement.style.backgroundColor = '#fff';
+                commentElement.style.border = '1px solid #ddd';
+                commentElement.style.borderRadius = '5px';
+                commentElement.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
+                commentElement.innerHTML = `
+                    <p style="margin: 0; font-size: 1rem; color: #333;">${comment.text}</p>
+                    <small style="color: #888;">Posté le ${comment.date}</small>
+                    <div style="margin-top: 0.5rem;">
+                        ${comment.ip === localStorage.getItem('userIP') ? `
+                            <button class="edit-comment" data-index="${index}" style="margin-right: 0.5rem; padding: 0.3rem 0.6rem; background-color: #ffc107; color: #fff; border: none; border-radius: 3px; cursor: pointer;">Modifier</button>
+                            <button class="delete-comment" data-index="${index}" style="padding: 0.3rem 0.6rem; background-color: #dc3545; color: #fff; border: none; border-radius: 3px; cursor: pointer;">Supprimer</button>
+                        ` : ''}
+                    </div>
+                `;
+                commentList.appendChild(commentElement);
+            });
+
+            // Add event listeners for edit and delete buttons
+            document.querySelectorAll('.edit-comment').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const index = e.target.getAttribute('data-index');
+                    editComment(index);
+                });
+            });
+
+            document.querySelectorAll('.delete-comment').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const index = e.target.getAttribute('data-index');
+                    deleteComment(index);
+                });
+            });
+        };
+
+        // Save a new comment
+        const saveComment = (text) => {
+            const savedComments = JSON.parse(localStorage.getItem('comments')) || [];
+            const newComment = {
+                text,
+                date: `${new Date().toLocaleDateString()} à ${new Date().toLocaleTimeString()}`,
+                ip: localStorage.getItem('userIP') // Save IP address with the comment
+            };
+            savedComments.push(newComment);
+            localStorage.setItem('comments', JSON.stringify(savedComments));
+        };
+
+        // Edit an existing comment
+        const editComment = (index) => {
+            const savedComments = JSON.parse(localStorage.getItem('comments')) || [];
+            const commentToEdit = savedComments[index];
+            if (commentToEdit.ip !== localStorage.getItem('userIP')) {
+                alert('Vous ne pouvez modifier que vos propres commentaires.');
+                return;
+            }
+            const newText = prompt('Modifiez votre commentaire:', commentToEdit.text);
+            if (newText !== null && newText.trim() !== '') {
+                savedComments[index].text = newText.trim();
+                localStorage.setItem('comments', JSON.stringify(savedComments));
+                loadComments();
+            }
+        };
+
+        // Delete a comment
+        const deleteComment = (index) => {
+            const savedComments = JSON.parse(localStorage.getItem('comments')) || [];
+            const commentToDelete = savedComments[index];
+            if (commentToDelete.ip !== localStorage.getItem('userIP')) {
+                alert('Vous ne pouvez supprimer que vos propres commentaires.');
+                return;
+            }
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')) {
+                savedComments.splice(index, 1);
+                localStorage.setItem('comments', JSON.stringify(savedComments));
+                loadComments();
+            }
+        };
+
+        // Check if the user has already commented
+        const hasCommented = () => {
+            const savedComments = JSON.parse(localStorage.getItem('comments')) || [];
+            const userIP = localStorage.getItem('userIP');
+            return savedComments.some(comment => comment.ip === userIP);
+        };
+
+        // Fetch user's IP address and store it in localStorage
+        const fetchUserIP = async () => {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                localStorage.setItem('userIP', data.ip);
+            } catch (error) {
+                console.error('Unable to fetch IP address:', error);
+            }
+        };
+
+        submitCommentButton.addEventListener('click', () => {
+            const commentText = commentInput.value.trim();
+
+            if (commentText === '') {
+                alert('Veuillez écrire un commentaire avant de publier.');
+                return;
+            }
+
+            if (hasCommented()) {
+                alert('Vous avez déjà publié un commentaire.');
+                return;
+            }
+
+            // Save the comment
+            saveComment(commentText);
+
+            // Reload comments
+            loadComments();
+
+            // Clear the input field
+            commentInput.value = '';
+        });
+
+        // Load comments and fetch IP on page load
+        window.addEventListener('load', () => {
+            loadComments();
+            fetchUserIP();
+        });
+    <style>
+        .edit-comment:hover {
+            background-color: #e0a800;
+        }
+
+        .delete-comment:hover {
+            background-color: #c82333;
+        }
+
+        #submit-comment:hover {
+            background-color: #0056b3;
+        }
+
+        #comment-input {
+            width: 100%;
+            max-width: 100%; /* Ensure it doesn't exceed the container width */
+            box-sizing: border-box; /* Include padding and border in width calculation */
+        }
+
+        @media (max-width: 480px) {
+            #comment-input {
+                font-size: 0.9rem; /* Adjust font size for smaller screens */
+                padding: 0.6rem; /* Reduce padding for better fit */
+            }
+
+            #submit-comment {
+                font-size: 0.9rem; /* Adjust button font size */
+                padding: 0.4rem 0.8rem; /* Reduce button padding */
+            }
+        }
+    </style>
+    </script>
+    <style>
+        #comments {
+            margin-top: 2rem;
+        }
+    
+        #comment-input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+    
+        #submit-comment:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</section>
     <footer>
         <p>&copy; 2025 WonderTech Services. Tous droits réservés. <a href="#home">Retour en haut</a></p>
     </footer>
