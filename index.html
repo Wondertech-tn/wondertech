@@ -417,7 +417,7 @@
             const commentInput = document.getElementById('comment-input');
             const submitCommentButton = document.getElementById('submit-comment');
             const commentList = document.getElementById('comment-list');
-            let allComments = [];
+            let allComments = JSON.parse(localStorage.getItem('comments')) || [];
 
             submitCommentButton.addEventListener('click', () => {
             const commentText = commentInput.value.trim();
@@ -429,6 +429,7 @@
 
             // Create a new comment object
             const comment = {
+                id: Date.now(), // Unique ID for the comment
                 text: commentText,
                 date: new Date().toLocaleDateString(),
                 time: new Date().toLocaleTimeString()
@@ -436,6 +437,7 @@
 
             // Add the comment to the list
             allComments.push(comment);
+            localStorage.setItem('comments', JSON.stringify(allComments));
             renderComments();
 
             // Clear the input field
@@ -457,6 +459,8 @@
                 commentElement.innerHTML = `
                 <p style="margin: 0; font-size: 1rem; color: #333;">${comment.text}</p>
                 <small style="color: #888;">Posté le ${comment.date} à ${comment.time}</small>
+                <button class="edit-comment" data-id="${comment.id}" style="margin-top: 0.5rem; padding: 0.3rem 0.8rem; background-color: #ffc107; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Modifier</button>
+                <button class="delete-comment" data-id="${comment.id}" style="margin-top: 0.5rem; margin-left: 0.5rem; padding: 0.3rem 0.8rem; background-color: #dc3545; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Supprimer</button>
                 `;
                 commentList.appendChild(commentElement);
             });
@@ -479,6 +483,8 @@
 
                 commentList.appendChild(showAllButton);
             }
+
+            addCommentActions();
             }
 
             function renderAllComments() {
@@ -495,8 +501,41 @@
                 commentElement.innerHTML = `
                 <p style="margin: 0; font-size: 1rem; color: #333;">${comment.text}</p>
                 <small style="color: #888;">Posté le ${comment.date} à ${comment.time}</small>
+                <button class="edit-comment" data-id="${comment.id}" style="margin-top: 0.5rem; padding: 0.3rem 0.8rem; background-color: #ffc107; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Modifier</button>
+                <button class="delete-comment" data-id="${comment.id}" style="margin-top: 0.5rem; margin-left: 0.5rem; padding: 0.3rem 0.8rem; background-color: #dc3545; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Supprimer</button>
                 `;
                 commentList.appendChild(commentElement);
+            });
+
+            addCommentActions();
+            }
+
+            function addCommentActions() {
+            const editButtons = document.querySelectorAll('.edit-comment');
+            const deleteButtons = document.querySelectorAll('.delete-comment');
+
+            editButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                const commentId = parseInt(button.getAttribute('data-id'));
+                const comment = allComments.find(c => c.id === commentId);
+                if (comment) {
+                    const newText = prompt('Modifier votre commentaire:', comment.text);
+                    if (newText !== null && newText.trim() !== '') {
+                    comment.text = newText.trim();
+                    localStorage.setItem('comments', JSON.stringify(allComments));
+                    renderComments();
+                    }
+                }
+                });
+            });
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                const commentId = parseInt(button.getAttribute('data-id'));
+                allComments = allComments.filter(c => c.id !== commentId);
+                localStorage.setItem('comments', JSON.stringify(allComments));
+                renderComments();
+                });
             });
             }
 
@@ -529,22 +568,27 @@
         <style>
             @media (max-width: 480px) {
             #comments {
-                width: 100%;
-                padding: 1rem;
-                box-sizing: border-box;
+            width: 100%;
+            padding: 1rem;
+            box-sizing: border-box;
             }
 
             #comment-input {
-                width: 100%;
+            width: 100%;
             }
 
             #submit-comment {
-                width: 100%;
+            width: 100%;
             }
 
             #comment-list {
-                width: 100%;
+            width: 100%;
             }
+            }
+
+            /* Ensure all comments are displayed on the page */
+            #comment-list > div {
+            display: block;
             }
         </style>
         </script>
