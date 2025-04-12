@@ -401,61 +401,150 @@
             </div>
         </section>
     </div>
-    <section id="comments" class="section">
-        <h2>Commentaires</h2>
-        <div id="comment-form" style="margin-bottom: 1.5rem;">
-            <textarea id="comment-input" placeholder="Écrivez votre commentaire ici..." rows="4"
-                style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; resize: none;"></textarea>
-            <button id="submit-comment"
-                style="margin-top: 0.5rem; padding: 0.5rem 1rem; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Publier</button>
-        </div>
-        <div id="comment-list"
-            style="background-color: #f9f9f9; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-            <p style="text-align: center; color: #888;">Aucun commentaire pour le moment. Soyez le premier à commenter !</p>
-        </div>
-       
-        <style>
-            @media (max-width: 480px) {
-            #comments {
-            width: 100%;
-            padding: 1rem;
-            box-sizing: border-box;
-            }
+<section id="comments" class="section">
+    <h2>Commentaires</h2>
+    <div id="comment-form" style="margin-bottom: 1.5rem;">
+        <textarea id="comment-input" placeholder="Écrivez votre commentaire ici..." rows="4"
+            style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; resize: none;"></textarea>
+        <button id="submit-comment"
+            style="margin-top: 0.5rem; padding: 0.5rem 1rem; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Publier</button>
+    </div>
+    <div id="comment-list"
+        style="background-color: #f9f9f9; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+        <p style="text-align: center; color: #888;">Aucun commentaire pour le moment. Soyez le premier à commenter !</p>
+    </div>
+    <script>
+    const commentInput = document.getElementById('comment-input');
+    const submitCommentButton = document.getElementById('submit-comment');
+    const commentList = document.getElementById('comment-list');
+    let allComments = JSON.parse(localStorage.getItem('comments')) || []; // Load comments from localStorage
 
-            #comment-input {
-            width: 100%;
-            }
+    // Simulate a unique user ID for the current user
+    let currentUserId = localStorage.getItem('userId');
+    if (!currentUserId) {
+        currentUserId = `user-${Date.now()}`; // Generate a unique user ID
+        localStorage.setItem('userId', currentUserId);
+    }
 
-            #submit-comment {
-            width: 100%;
-            }
+    // Function to render comments
+    function renderComments() {
+        commentList.innerHTML = ''; // Clear the comment list
 
-            #comment-list {
-            width: 100%;
-            }
-            }
+        if (allComments.length === 0) {
+            commentList.innerHTML = '<p style="text-align: center; color: #888;">Aucun commentaire pour le moment. Soyez le premier à commenter !</p>';
+            return;
+        }
 
-            /* Ensure all comments are displayed on the page */
-            #comment-list > div {
-            display: block;
-            }
-        </style>
-        </script>
-        <style>
+        allComments.forEach((comment, index) => {
+            const commentElement = document.createElement('div');
+            commentElement.style.marginBottom = '1rem';
+            commentElement.style.padding = '0.8rem';
+            commentElement.style.backgroundColor = '#fff';
+            commentElement.style.border = '1px solid #ddd';
+            commentElement.style.borderRadius = '5px';
+            commentElement.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
+            commentElement.innerHTML = `
+                <p style="margin: 0; font-size: 1rem; color: #333;" id="comment-text-${index}">${comment.text}</p>
+                <small style="color: #888;">Posté le ${comment.date} à ${comment.time}</small>
+                <div style="margin-top: 0.5rem;">
+                    ${
+                        comment.userId === currentUserId
+                            ? `
+                                <button onclick="editComment(${index})" style="margin-right: 0.5rem; padding: 0.3rem 0.8rem; background-color: #ffc107; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Modifier</button>
+                                <button onclick="deleteComment(${index})" style="padding: 0.3rem 0.8rem; background-color: #dc3545; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Supprimer</button>
+                              `
+                            : `<small style="color: #888;">(Vous ne pouvez pas modifier ou supprimer ce commentaire)</small>`
+                    }
+                </div>
+            `;
+            commentList.appendChild(commentElement);
+        });
+    }
+
+    // Save comments to localStorage
+    function saveComments() {
+        localStorage.setItem('comments', JSON.stringify(allComments));
+    }
+
+    // Handle comment submission
+    submitCommentButton.addEventListener('click', () => {
+        const commentText = commentInput.value.trim();
+
+        if (commentText === '') {
+            alert('Veuillez écrire un commentaire avant de publier.');
+            return;
+        }
+
+        // Create a new comment object
+        const comment = {
+            text: commentText,
+            date: new Date().toLocaleDateString(),
+            time: new Date().toLocaleTimeString(),
+            userId: currentUserId // Associate the comment with the current user
+        };
+
+        // Add the comment to the list
+        allComments.push(comment);
+        saveComments(); // Save to localStorage
+        renderComments(); // Update the UI
+
+        // Clear the input field
+        commentInput.value = '';
+    });
+
+    // Edit a comment
+    function editComment(index) {
+        if (allComments[index].userId !== currentUserId) {
+            alert("Vous ne pouvez modifier que vos propres commentaires.");
+            return;
+        }
+
+        const newCommentText = prompt('Modifier le commentaire:', allComments[index].text);
+        if (newCommentText !== null && newCommentText.trim() !== '') {
+            allComments[index].text = newCommentText.trim();
+            saveComments(); // Save changes to localStorage
+            renderComments(); // Update the UI
+        }
+    }
+
+    // Delete a comment
+    function deleteComment(index) {
+        if (allComments[index].userId !== currentUserId) {
+            alert("Vous ne pouvez supprimer que vos propres commentaires.");
+            return;
+        }
+
+        if (confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')) {
+            allComments.splice(index, 1); // Remove the comment from the array
+            saveComments(); // Save changes to localStorage
+            renderComments(); // Update the UI
+        }
+    }
+
+    // Initial render to load comments from localStorage
+    renderComments();
+</script>
+</section>
+
+<style>
     #comments {
         margin-top: 2rem;
     }
+
     #comment-input:focus {
         outline: none;
         border-color: #007bff;
         box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     }
+
     #submit-comment:hover {
         background-color: #0056b3;
     }
+
+    button:hover {
+        opacity: 0.9;
+    }
 </style>
-    </section>
-  
 
 
     <footer>
