@@ -401,30 +401,52 @@
             </div>
         </section>
     </div>
-<section id="comments" class="section">
-    <h2>Commentaires</h2>
-    <div id="comment-form" style="margin-bottom: 1.5rem;">
-        <textarea id="comment-input" placeholder="Écrivez votre commentaire ici..." rows="4"
-            style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; resize: none;"></textarea>
-        <button id="submit-comment"
-            style="margin-top: 0.5rem; padding: 0.5rem 1rem; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Publier</button>
-    </div>
-    <div id="comment-list"
-        style="background-color: #f9f9f9; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-        <p style="text-align: center; color: #888;">Aucun commentaire pour le moment. Soyez le premier à commenter !</p>
-    </div>
-    <script>
-        const commentInput = document.getElementById('comment-input');
-        const submitCommentButton = document.getElementById('submit-comment');
-        const commentList = document.getElementById('comment-list');
+    <section id="comments" class="section">
+        <h2>Commentaires</h2>
+        <div id="comment-form" style="margin-bottom: 1.5rem;">
+            <textarea id="comment-input" placeholder="Écrivez votre commentaire ici..." rows="4"
+                style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; resize: none;"></textarea>
+            <button id="submit-comment"
+                style="margin-top: 0.5rem; padding: 0.5rem 1rem; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Publier</button>
+        </div>
+        <div id="comment-list"
+            style="background-color: #f9f9f9; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+            <p style="text-align: center; color: #888;">Aucun commentaire pour le moment. Soyez le premier à commenter !</p>
+        </div>
+        <script>
+            const commentInput = document.getElementById('comment-input');
+            const submitCommentButton = document.getElementById('submit-comment');
+            const commentList = document.getElementById('comment-list');
+            let allComments = [];
 
-        // Load comments from localStorage
-        const loadComments = () => {
-            const savedComments = JSON.parse(localStorage.getItem('comments')) || [];
-            commentList.innerHTML = savedComments.length
-                ? ''
-                : '<p style="text-align: center; color: #888;">Aucun commentaire pour le moment. Soyez le premier à commenter !</p>';
-            savedComments.forEach((comment, index) => {
+            submitCommentButton.addEventListener('click', () => {
+            const commentText = commentInput.value.trim();
+
+            if (commentText === '') {
+                alert('Veuillez écrire un commentaire avant de publier.');
+                return;
+            }
+
+            // Create a new comment object
+            const comment = {
+                text: commentText,
+                date: new Date().toLocaleDateString(),
+                time: new Date().toLocaleTimeString()
+            };
+
+            // Add the comment to the list
+            allComments.push(comment);
+            renderComments();
+
+            // Clear the input field
+            commentInput.value = '';
+            });
+
+            function renderComments() {
+            commentList.innerHTML = ''; // Clear the comment list
+
+            const visibleComments = allComments.slice(0, 3); // Show only the first 3 comments
+            visibleComments.forEach(comment => {
                 const commentElement = document.createElement('div');
                 commentElement.style.marginBottom = '1rem';
                 commentElement.style.padding = '0.8rem';
@@ -433,142 +455,116 @@
                 commentElement.style.borderRadius = '5px';
                 commentElement.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
                 commentElement.innerHTML = `
-                    <p style="margin: 0; font-size: 1rem; color: #333;">${comment.text}</p>
-                    <small style="color: #888;">Posté le ${comment.date}</small>
-                    <div style="margin-top: 0.5rem;">
-                        ${comment.ip === localStorage.getItem('userIP') ? `
-                            <button class="edit-comment" data-index="${index}" style="margin-right: 0.5rem; padding: 0.3rem 0.6rem; background-color: #ffc107; color: #fff; border: none; border-radius: 3px; cursor: pointer;">Modifier</button>
-                            <button class="delete-comment" data-index="${index}" style="padding: 0.3rem 0.6rem; background-color: #dc3545; color: #fff; border: none; border-radius: 3px; cursor: pointer;">Supprimer</button>
-                        ` : ''}
-                    </div>
+                <p style="margin: 0; font-size: 1rem; color: #333;">${comment.text}</p>
+                <small style="color: #888;">Posté le ${comment.date} à ${comment.time}</small>
                 `;
                 commentList.appendChild(commentElement);
             });
 
-            // Add event listeners for edit and delete buttons
-            document.querySelectorAll('.edit-comment').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const index = e.target.getAttribute('data-index');
-                    editComment(index);
+            if (allComments.length > 3) {
+                const showAllButton = document.createElement('button');
+                showAllButton.textContent = 'Voir tous les commentaires';
+                showAllButton.style.marginTop = '1rem';
+                showAllButton.style.padding = '0.5rem 1rem';
+                showAllButton.style.backgroundColor = '#007bff';
+                showAllButton.style.color = '#fff';
+                showAllButton.style.border = 'none';
+                showAllButton.style.borderRadius = '5px';
+                showAllButton.style.cursor = 'pointer';
+
+                showAllButton.addEventListener('click', () => {
+                renderAllComments();
+                showAllButton.remove();
                 });
+
+                commentList.appendChild(showAllButton);
+            }
+            }
+
+            function renderAllComments() {
+            commentList.innerHTML = ''; // Clear the comment list
+
+            allComments.forEach(comment => {
+                const commentElement = document.createElement('div');
+                commentElement.style.marginBottom = '1rem';
+                commentElement.style.padding = '0.8rem';
+                commentElement.style.backgroundColor = '#fff';
+                commentElement.style.border = '1px solid #ddd';
+                commentElement.style.borderRadius = '5px';
+                commentElement.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
+                commentElement.innerHTML = `
+                <p style="margin: 0; font-size: 1rem; color: #333;">${comment.text}</p>
+                <small style="color: #888;">Posté le ${comment.date} à ${comment.time}</small>
+                `;
+                commentList.appendChild(commentElement);
+            });
+            }
+
+            // Add a button to hide all comments
+            const toggleCommentsButton = document.createElement('button');
+            toggleCommentsButton.textContent = 'Cacher tous les commentaires';
+            toggleCommentsButton.style.marginTop = '1rem';
+            toggleCommentsButton.style.padding = '0.5rem 1rem';
+            toggleCommentsButton.style.backgroundColor = '#007bff';
+            toggleCommentsButton.style.color = '#fff';
+            toggleCommentsButton.style.border = 'none';
+            toggleCommentsButton.style.borderRadius = '5px';
+            toggleCommentsButton.style.cursor = 'pointer';
+
+            document.getElementById('comments').appendChild(toggleCommentsButton);
+
+            toggleCommentsButton.addEventListener('click', () => {
+            if (commentList.style.display === 'none') {
+                commentList.style.display = 'block';
+                toggleCommentsButton.textContent = 'Cacher tous les commentaires';
+            } else {
+                commentList.style.display = 'none';
+                toggleCommentsButton.textContent = 'Afficher tous les commentaires';
+            }
             });
 
-            document.querySelectorAll('.delete-comment').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const index = e.target.getAttribute('data-index');
-                    deleteComment(index);
-                });
-            });
-        };
-
-        // Save a new comment
-        const saveComment = (text) => {
-            const savedComments = JSON.parse(localStorage.getItem('comments')) || [];
-            const newComment = {
-                text,
-                date: `${new Date().toLocaleDateString()} à ${new Date().toLocaleTimeString()}`,
-                ip: localStorage.getItem('userIP') // Save IP address with the comment
-            };
-            savedComments.push(newComment);
-            localStorage.setItem('comments', JSON.stringify(savedComments));
-        };
-
-        // Edit an existing comment
-        const editComment = (index) => {
-            const savedComments = JSON.parse(localStorage.getItem('comments')) || [];
-            const commentToEdit = savedComments[index];
-            if (commentToEdit.ip !== localStorage.getItem('userIP')) {
-                alert('Vous ne pouvez modifier que vos propres commentaires.');
-                return;
-            }
-            const newText = prompt('Modifiez votre commentaire:', commentToEdit.text);
-            if (newText !== null && newText.trim() !== '') {
-                savedComments[index].text = newText.trim();
-                localStorage.setItem('comments', JSON.stringify(savedComments));
-                loadComments();
-            }
-        };
-
-        // Delete a comment
-        const deleteComment = (index) => {
-            const savedComments = JSON.parse(localStorage.getItem('comments')) || [];
-            const commentToDelete = savedComments[index];
-            if (commentToDelete.ip !== localStorage.getItem('userIP')) {
-                alert('Vous ne pouvez supprimer que vos propres commentaires.');
-                return;
-            }
-            if (confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')) {
-                savedComments.splice(index, 1);
-                localStorage.setItem('comments', JSON.stringify(savedComments));
-                loadComments();
-            }
-        };
-
-        // Fetch user's IP address and store it in localStorage
-        const fetchUserIP = async () => {
-            try {
-                const response = await fetch('https://api.ipify.org?format=json');
-                const data = await response.json();
-                localStorage.setItem('userIP', data.ip);
-            } catch (error) {
-                console.error('Unable to fetch IP address:', error);
-            }
-        };
-
-        submitCommentButton.addEventListener('click', () => {
-            const commentText = commentInput.value.trim();
-
-            if (commentText === '') {
-                alert('Veuillez écrire un commentaire avant de publier.');
-                return;
+            // Initial render to show only the first 3 comments
+            renderComments();
+        </script>
+        <style>
+            @media (max-width: 480px) {
+            #comments {
+                width: 100%;
+                padding: 1rem;
+                box-sizing: border-box;
             }
 
-            // Save the comment
-            saveComment(commentText);
+            #comment-input {
+                width: 100%;
+            }
 
-            // Reload comments
-            loadComments();
+            #submit-comment {
+                width: 100%;
+            }
 
-            // Clear the input field
-            commentInput.value = '';
-        });
+            #comment-list {
+                width: 100%;
+            }
+            }
+        </style>
+        </script>
+        <style>
+    #comments {
+        margin-top: 2rem;
+    }
+    #comment-input:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+    #submit-comment:hover {
+        background-color: #0056b3;
+    }
+</style>
+    </section>
+  
 
-        // Load comments and fetch IP on page load
-        window.addEventListener('load', () => {
-            loadComments();
-            fetchUserIP();
-        });
-    </script>
-    <style>
-        .edit-comment:hover {
-            background-color: #e0a800;
-        }
 
-        .delete-comment:hover {
-            background-color: #c82333;
-        }
-
-        #submit-comment:hover {
-            background-color: #0056b3;
-        }
-    </style>
-    </script>
-    <style>
-        #comments {
-            margin-top: 2rem;
-        }
-    
-        #comment-input:focus {
-            outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-    
-        #submit-comment:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</section>
     <footer>
         <p>&copy; 2025 WonderTech Services. Tous droits réservés. <a href="#home">Retour en haut</a></p>
     </footer>
