@@ -3,215 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>WonderTech Services</title>
-    <style>
-        /* Base Styles */
-        body {
-            font-family: 'Roboto', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        header {
-            background: linear-gradient(90deg, #0056b3, #007bff);
-            color: #fff;
-            padding: 1.5rem 1rem;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        header img {
-            max-height: 80px;
-            margin-bottom: 1rem;
-        }
-        header h1 {
-            font-size: 2rem;
-            margin: 0;
-        }
-        nav {
-            display: flex;
-            justify-content: center;
-            background-color: #444;
-            padding: 0.5rem 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            flex-wrap: wrap;
-        }
-        nav a {
-            color: #fff;
-            padding: 0.5rem 1rem;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-        nav a:hover {
-            background-color: #555;
-        }
-        .container {
-            max-width: 100%;
-            margin: 1rem auto;
-            padding: 1rem;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            font-size: 1.8rem;
-            color: #0056b3;
-            margin-bottom: 1rem;
-            border-bottom: 2px solid #007bff;
-            display: inline-block;
-            padding-bottom: 0.5rem;
-        }
-        .section {
-            margin-bottom: 1.5rem;
-        }
-        .section img {
-            width: 100%;
-            max-height: 300px;
-            object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        iframe {
-            width: 100%;
-            height: 250px;
-            border: 0;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .contact-info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .contact-info div {
-            flex: 1 1 calc(100% - 1rem);
-            background: #f9f9f9;
-            padding: 0.8rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        .contact-info div i {
-            font-size: 1.5rem;
-            color: #007bff;
-            margin-bottom: 0.5rem;
-        }
-        footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 1rem 0;
-            margin-top: 1.5rem;
-        }
-        footer a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        footer a:hover {
-            text-decoration: underline;
-        }
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .social-links a {
-            color: #fff;
-            background-color: #007bff;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-        }
-        .social-links a:hover {
-            background-color: #0056b3;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            body {
-                margin: 0;
-                padding: 0 1rem; /* Add padding to prevent content from touching screen edges */
-            }
-            header h1 {
-                font-size: 1.5rem;
-            }
-            .contact-info div {
-                flex: 1 1 100%;
-            }
-            nav a {
-                padding: 0.5rem;
-                font-size: 0.9rem;
-            }
-            h2 {
-                font-size: 1.5rem;
-            }
-            .day {
-                flex: 1 1 calc(100% - 1rem);
-            }
-        }
-        @media (max-width: 480px) {
-            nav {
-                flex-direction: column;
-                align-items: center;
-            }
-            nav a {
-                padding: 0.5rem 0;
-                font-size: 0.8rem;
-            }
-            header img {
-                max-height: 60px;
-            }
-            .section img {
-                max-height: 200px;
-            }
-            h2 {
-                font-size: 1.2rem;
-            }
-            .day {
-                flex: 1 1 100%;
-                margin: 0.5rem 0;
-            }
-        }
-        .calendar {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            padding: 0.8rem;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-top: 1rem;
-        }
-
-        .day {
-            padding: 0.8rem;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            text-align: center;
-            margin: 0.5rem;
-            flex: 1 1 calc(45% - 1rem);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .day:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .day strong {
-            display: block;
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            color: #007bff;
-        }
-    </style>
+    
 </head>
 <body>
     <div id="loading-screen">
@@ -221,74 +15,16 @@
         <img src="logo.png" alt="Logo Wonder Tech" style="max-height: 120px;">
         <h1 style="font-size: 2.5rem;">WonderTech Services</h1>
     </header>
-    <script>
-        const loadingScreen = document.getElementById('loading-screen');
-        const header = document.querySelector('header');
-
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-                header.style.display = 'block';
-            }, 3000);
-        });
-    </script>
-    <style>
-        #loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        #loading-screen img {
-            width: 150px;
-            animation: fadeInOut 3s ease-in-out;
-        }
-
-        @keyframes fadeInOut {
-            0%, 100% {
-                opacity: 0;
-            }
-            50% {
-                opacity: 1;
-            }
-        }
-    </style>
-    <style>
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 1s ease-in-out forwards;
-        }
-    
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+    <script src="java/animation.js"></script> <!--script to hide loading screen and show header-->
+   
    
     </header>
-    
-</script>
     <nav>
         <a href="#home" style="transition: color 0.3s ease;">Accueil</a>
         <a href="#about" style="transition: color 0.3s ease;">À Propos</a>
         <a href="#contact" style="transition: color 0.3s ease;">Contact</a>
         <a href="#social" style="transition: color 0.3s ease;">Réseaux Sociaux</a>
     </nav>
-    <style>
-        nav a:hover {
-            color: #ff5733; /* A vibrant orange for hover effect */
-        }
-    </style>
     <div class="container">
         <section id="home" class="section">
             <h2>Bienvenue chez WonderTech</h2>
@@ -298,19 +34,7 @@
             <div id="map-container">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d553.2647922002717!2d10.771125470545439!3d34.759779187203954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2stn!4v1743076922949!5m2!1sen!2stn" allowfullscreen="" loading="lazy"></iframe>
             </div>
-            <script>
-                const toggleMapButton = document.getElementById('toggle-map');
-                const mapContainer = document.getElementById('map-container');
-                toggleMapButton.addEventListener('click', () => {
-                    if (mapContainer.style.display === 'none') {
-                        mapContainer.style.display = 'block';
-                        toggleMapButton.textContent = 'Cacher la carte';
-                    } else {
-                        mapContainer.style.display = 'none';
-                        toggleMapButton.textContent = 'Afficher la carte';
-                    }
-                });
-            </script>
+            <script src="java/togglemaps.js"></script> <!--script to toggle maps visibility -->
         </section>
         <section id="calendar" class="section">
             <h2>Horaires d'ouverture</h2>
@@ -346,29 +70,8 @@
             </div>
             </div>
             <div id="notification" style="margin-top: 1rem; padding: 1rem; background-color: #e9ecef; border: 1px solid #007bff; border-radius: 8px; text-align: center; color: #0056b3; font-size: 1.1rem; font-weight: 600;"></div>
-            <script>
-                const now = new Date();
-                const day = now.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-                const hour = now.getHours();
-                const minute = now.getMinutes();
-                const isOpen = (day >= 1 && day <= 5 && (hour >= 8 && (hour < 17 || (hour === 17 && minute <= 30)))) ||
-                       (day === 6 && (hour >= 8 && (hour < 13 || (hour === 13 && minute === 0))));
-                document.getElementById('notification').textContent = isOpen ? "Nous sommes actuellement ouverts." : "Nous sommes actuellement fermés.";
-            </script>
-            </div>
-            <script>
-            const toggleButton = document.getElementById('toggle-calendar');
-            const calendarContent = document.getElementById('calendar-content');
-            toggleButton.addEventListener('click', () => {
-                if (calendarContent.style.display === 'none') {
-                calendarContent.style.display = 'flex';
-                toggleButton.textContent = 'Cacher le calendrier';
-                } else {
-                calendarContent.style.display = 'none';
-                toggleButton.textContent = 'Afficher le calendrier';
-                }
-            });
-            </script>
+            <script src="java/calander.js"></script> <!--script to toggle calender visibility and show notification-->
+            
         </section>
             </div>
         </section>
@@ -401,154 +104,54 @@
             </div>
         </section>
     </div>
-<section id="comments" class="section">
-    <h2>Commentaires</h2>
-    <div id="comment-form" style="margin-bottom: 1.5rem;">
-        <textarea id="comment-input" placeholder="Écrivez votre commentaire ici..." rows="4"
-            style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; resize: none;"></textarea>
-        <button id="submit-comment"
-            style="margin-top: 0.5rem; padding: 0.5rem 1rem; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Publier</button>
+<section id="rate-us" class="section"></section>
+    <h2>Évaluez-nous</h2>
+    <div id="stars" style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1rem;">
+        <!-- Stars will be dynamically generated -->
     </div>
-    <div id="comment-list"
-        style="background-color: #f9f9f9; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-        <p style="text-align: center; color: #888;">Aucun commentaire pour le moment. Soyez le premier à commenter !</p>
+    <input type="text" id="user-name" placeholder="Votre nom" 
+        style="margin-bottom: 1rem; padding: 0.5rem; width: 100%; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box;">
+    <button id="submit-rating"
+        style="margin-top: 0.5rem; padding: 0.5rem 1rem; background-color: #007bff; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Soumettre</button>
+    <div id="rating-list"
+        style="margin-top: 2rem; background-color: #f9f9f9; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+        <!-- Ratings will be dynamically rendered here -->
+         
     </div>
-    <script>
-    const commentInput = document.getElementById('comment-input');
-    const submitCommentButton = document.getElementById('submit-comment');
-    const commentList = document.getElementById('comment-list');
-    let allComments = JSON.parse(localStorage.getItem('comments')) || []; // Load comments from localStorage
-
-    // Simulate a unique user ID for the current user
-    let currentUserId = localStorage.getItem('userId');
-    if (!currentUserId) {
-        currentUserId = `user-${Date.now()}`; // Generate a unique user ID
-        localStorage.setItem('userId', currentUserId);
-    }
-
-    // Function to render comments
-    function renderComments() {
-        commentList.innerHTML = ''; // Clear the comment list
-
-        if (allComments.length === 0) {
-            commentList.innerHTML = '<p style="text-align: center; color: #888;">Aucun commentaire pour le moment. Soyez le premier à commenter !</p>';
-            return;
-        }
-
-        allComments.forEach((comment, index) => {
-            const commentElement = document.createElement('div');
-            commentElement.style.marginBottom = '1rem';
-            commentElement.style.padding = '0.8rem';
-            commentElement.style.backgroundColor = '#fff';
-            commentElement.style.border = '1px solid #ddd';
-            commentElement.style.borderRadius = '5px';
-            commentElement.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
-            commentElement.innerHTML = `
-                <p style="margin: 0; font-size: 1rem; color: #333;" id="comment-text-${index}">${comment.text}</p>
-                <small style="color: #888;">Posté le ${comment.date} à ${comment.time}</small>
-                <div style="margin-top: 0.5rem;">
-                    ${
-                        comment.userId === currentUserId
-                            ? `
-                                <button onclick="editComment(${index})" style="margin-right: 0.5rem; padding: 0.3rem 0.8rem; background-color: #ffc107; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Modifier</button>
-                                <button onclick="deleteComment(${index})" style="padding: 0.3rem 0.8rem; background-color: #dc3545; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Supprimer</button>
-                              `
-                            : `<small style="color: #888;">(Vous ne pouvez pas modifier ou supprimer ce commentaire)</small>`
-                    }
-                </div>
-            `;
-            commentList.appendChild(commentElement);
-        });
-    }
-
-    // Save comments to localStorage
-    function saveComments() {
-        localStorage.setItem('comments', JSON.stringify(allComments));
-    }
-
-    // Handle comment submission
-    submitCommentButton.addEventListener('click', () => {
-        const commentText = commentInput.value.trim();
-
-        if (commentText === '') {
-            alert('Veuillez écrire un commentaire avant de publier.');
-            return;
-        }
-
-        // Create a new comment object
-        const comment = {
-            text: commentText,
-            date: new Date().toLocaleDateString(),
-            time: new Date().toLocaleTimeString(),
-            userId: currentUserId // Associate the comment with the current user
-        };
-
-        // Add the comment to the list
-        allComments.push(comment);
-        saveComments(); // Save to localStorage
-        renderComments(); // Update the UI
-
-        // Clear the input field
-        commentInput.value = '';
-    });
-
-    // Edit a comment
-    function editComment(index) {
-        if (allComments[index].userId !== currentUserId) {
-            alert("Vous ne pouvez modifier que vos propres commentaires.");
-            return;
-        }
-
-        const newCommentText = prompt('Modifier le commentaire:', allComments[index].text);
-        if (newCommentText !== null && newCommentText.trim() !== '') {
-            allComments[index].text = newCommentText.trim();
-            saveComments(); // Save changes to localStorage
-            renderComments(); // Update the UI
-        }
-    }
-
-    // Delete a comment
-    function deleteComment(index) {
-        if (allComments[index].userId !== currentUserId) {
-            alert("Vous ne pouvez supprimer que vos propres commentaires.");
-            return;
-        }
-
-        if (confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')) {
-            allComments.splice(index, 1); // Remove the comment from the array
-            saveComments(); // Save changes to localStorage
-            renderComments(); // Update the UI
-        }
-    }
-
-    // Initial render to load comments from localStorage
-    renderComments();
-</script>
 </section>
 
-<style>
-    #comments {
-        margin-top: 2rem;
-    }
+<div id="view-counter" style="margin-top: 1rem; text-align: center; font-size: 1.2rem; color: #333;">
+    Nombre de vues : <span id="view-count">0</span>
+</div>
 
-    #comment-input:focus {
-        outline: none;
-        border-color: #007bff;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    }
+<script src="java/rateus.js"></script> <!-- script to handle rating functionality -->
 
-    #submit-comment:hover {
-        background-color: #0056b3;
-    }
+<button id="delete-all-ratings" 
+    style="margin-top: 1rem; padding: 0.5rem 1rem; background-color: #dc3545; color: #fff; border: none; border-radius: 5px; cursor: pointer;">
+    Supprimer toutes les évaluations
+</button>
 
-    button:hover {
-        opacity: 0.9;
-    }
-</style>
-
-
-    <footer>
-        <p>&copy; 2025 WonderTech Services. Tous droits réservés. <a href="#home">Retour en haut</a></p>
-    </footer>
+<footer>
+    <p>&copy; 2025 WonderTech Services. Tous droits réservés. <a href="#home">Retour en haut</a></p>
+</footer>
+<script>
+    document.getElementById('delete-all-ratings').addEventListener('click', function() {
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                if (data.ip === '197.244.150.25') {
+                    const ratingList = document.getElementById('rating-list');
+                    ratingList.innerHTML = ''; // Clear all ratings
+                    alert('Toutes les évaluations ont été supprimées.');
+                } else {
+                    alert('Vous n\'êtes pas autorisé à supprimer toutes les évaluations.');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de la vérification de l\'adresse IP :', error);
+                alert('Une erreur est survenue. Veuillez réessayer plus tard.');
+            });
+    });
+</script>
 </body>
 </html>
